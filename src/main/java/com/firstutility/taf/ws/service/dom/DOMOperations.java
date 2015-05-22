@@ -99,6 +99,10 @@ public class DOMOperations {
 		return getResultParameterValues(document, xpath);
 	}
 	
+	public List<String> findElementTextsByXpath(Node document, String xpath) {
+		return getResultParameterText(document, xpath);
+	}
+	
 	public Node findElementByXpath(Node document, String xpath){
 		return getResultParameterNode(document, xpath);
 	}
@@ -178,6 +182,17 @@ public class DOMOperations {
 		for(int i = 0; i< nodesNumber; i++){
 			Node node = nodes.item(i);
 			values.add(node.getTextContent());
+		}
+		return values;
+	}
+	
+	private List<String> getResultParameterText(Node parentNode, String xPathExpression) {
+		List<String> values = new ArrayList<String>();
+		NodeList nodes = getResultParameterNodes(parentNode, xPathExpression);
+		int nodesNumber = nodes.getLength();
+		for(int i = 0; i< nodesNumber; i++){
+			Node node = nodes.item(i);
+			values.add(node.getFirstChild().getNodeValue());
 		}
 		return values;
 	}
