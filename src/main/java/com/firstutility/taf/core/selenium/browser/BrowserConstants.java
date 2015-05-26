@@ -15,6 +15,7 @@ public class BrowserConstants {
 	public static final String CHROME_DRIVER_BINARY_PROPERTY = "chrome.binary";
 	public static final String CHROME_LINUX_BINARY_PATH ="/usr/bin/google-chrome-stable";
 	public static final String REMOTE_DRIVER_URL = "http/127.0.0.1:4444/wd/hub";
+	public static final String CHROME_PROXY_VALUE = "webproxy.impello.co.uk:8080";
 	//test properties
 	public static final String TEST_PROPERTIES_PATH = "test.properties";
 	public static final String LOAD_TIMEOUT_PROPERTY = "browser.loadTimeout";

@@ -16,6 +16,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -107,6 +108,13 @@ public class TestRunner extends Assert {
 			options.setBinary(BrowserConstants.CHROME_LINUX_BINARY_PATH);
 			options.addArguments(BrowserConstants.CHROME_WORK_PROFILE + RandomString.getRandomAlphabetic(12));
 		}
+		
+		// Setup proxy settings
+		String proxy = BrowserConstants.CHROME_PROXY_VALUE;
+		org.openqa.selenium.Proxy proxySettings = new org.openqa.selenium.Proxy();
+		proxySettings.setHttpProxy(proxy).setFtpProxy(proxy).setSslProxy(proxy);
+		capabilities.setCapability(CapabilityType.PROXY, proxySettings);
+		
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 		return new ChromeDriver(capabilities);
 	}
