@@ -107,13 +107,8 @@ public class TestRunner extends Assert {
 		}  else {
 			options.setBinary(BrowserConstants.CHROME_LINUX_BINARY_PATH);
 			options.addArguments(BrowserConstants.CHROME_WORK_PROFILE + RandomString.getRandomAlphabetic(12));
+			options.addArguments(BrowserConstants.CHROME_PROXY_AUTO_DETECT);
 		}
-		
-		// Setup proxy settings
-		String proxy = BrowserConstants.CHROME_PROXY_VALUE;
-		org.openqa.selenium.Proxy proxySettings = new org.openqa.selenium.Proxy();
-		proxySettings.setHttpProxy(proxy).setFtpProxy(proxy).setSslProxy(proxy);
-		capabilities.setCapability(CapabilityType.PROXY, proxySettings);
 		
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 		return new ChromeDriver(capabilities);
