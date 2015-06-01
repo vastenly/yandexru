@@ -55,10 +55,10 @@ public enum DatabaseConnection {
 
 		@Override
 		protected void initiateConnection() {
-			DB_URL = "jdbc:oracle:thin:@lognet-ora-ec2.auto.impello.co.uk:1521:WTAUTO";
-			DB_USERNAME = "reporting";
-			DB_PASSWORD = "reporting";
-			DB_DRIVER_CLASS_NAME = "oracle.jdbc.OracleDriver";
+			DB_URL = System.getProperty("lognet.database.url");
+			DB_USERNAME = System.getProperty("lognet.database.user");
+			DB_PASSWORD = System.getProperty("lognet.database.password");
+			DB_DRIVER_CLASS_NAME = System.getProperty("lognet.database.driver");
 		}
 	};
 	
