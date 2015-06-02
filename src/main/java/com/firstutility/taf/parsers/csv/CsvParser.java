@@ -9,8 +9,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 public class CsvParser {
+	
+	private static final Logger log = Logger.getLogger(CsvParser.class);
+	
     public static final String CSV_DELIMETER = ",";
-    private static final Logger log = Logger.getLogger(CsvParser.class);
     private static final int FIRST_ROW = 0;
     private static final int FIRST_ROW_WITH_DATA = 1;
     private static final int FIRST_FIELD = 0;
@@ -24,7 +26,7 @@ public class CsvParser {
 
 	public static List<Map<String,String>> parseCsv(InputStream inputStream) {
 		List<String> lines = FileOperator.readFileToLines(inputStream);
-		 log.info("[CsvParser] Parsing input data.");
+		log.info("[CsvParser] Parsing input data.");
 		return parseCsvLines(lines);
 	}
 

@@ -1,4 +1,4 @@
-package com.firstutility.taf.core.database;
+package com.firstutility.taf.connect.db;
 
 import java.util.HashMap;
 import java.util.Map;

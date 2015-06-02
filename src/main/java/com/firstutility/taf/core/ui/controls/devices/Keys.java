@@ -3,7 +3,7 @@ package com.firstutility.taf.core.ui.controls.devices;
 public enum Keys {
 
     ENTER('\n'),
-    BACK_SPACE('\b'),
+    BACKSPACE('\b'),
     TAB('\t'),
     CANCEL(0x03),
     CLEAR(0x0C),
@@ -11,7 +11,7 @@ public enum Keys {
     CONTROL(0x11),
     ALT(0x12),
     PAUSE(0x13),
-    CAPS_LOCK(0x14),
+    CAPSLOCK(0x14),
     ESCAPE(0x1B),
     SPACE(0x20),
     PAGE_UP(0x21),
