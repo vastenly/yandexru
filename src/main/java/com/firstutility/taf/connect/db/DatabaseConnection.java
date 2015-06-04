@@ -60,7 +60,17 @@ public enum DatabaseConnection {
 			DB_PASSWORD = System.getProperty("lognet.database.password");
 			DB_DRIVER_CLASS_NAME = System.getProperty("lognet.database.driver");
 		}
-	};
+	},
+	LIFERAY () {
+
+		@Override
+		protected void initiateConnection() {
+			DB_URL = System.getProperty("liferay.database.url");
+			DB_USERNAME = System.getProperty("liferay.database.user");
+			DB_PASSWORD = System.getProperty("liferay.database.password");
+			DB_DRIVER_CLASS_NAME = System.getProperty("liferay.database.driver");
+		}
+	};;
 	
 	private final Logger log = Logger.getLogger(DatabaseConnection.class);
 	
