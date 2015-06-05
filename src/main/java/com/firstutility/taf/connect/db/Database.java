@@ -39,7 +39,7 @@ public class Database {
 			validateConnection();
 			validateQuery(query);
 			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			log.info("Executing query - " + query);
+			log.debug("Executing query - " + query);
 			rs =  stmt.executeQuery(query);
 		} catch (SQLException e ) {
 			e.printStackTrace();
