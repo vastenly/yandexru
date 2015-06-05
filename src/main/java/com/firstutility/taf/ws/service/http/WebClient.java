@@ -7,13 +7,10 @@ import java.util.Map;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -113,12 +110,17 @@ public class WebClient {
 	private String processRequest() {
 		
 		HttpResponse response = null;
+		String stringResponse = "";
 		try {
 			response = httpClient.execute(httpMethod);
 			httpMethod.releaseConnection();
+			stringResponse = response.getEntity().getContent().toString();
 		} catch (HttpResponseException e) {
 		} catch (IOException e) {
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return response.getStatusLine().toString();
+		return stringResponse;
 	}
 }
