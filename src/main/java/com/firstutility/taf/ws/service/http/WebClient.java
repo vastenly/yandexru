@@ -5,13 +5,17 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 public class WebClient {
 
@@ -22,8 +26,8 @@ public class WebClient {
 	private static final String EQUAL_TO = "=";
 	private static final String AND = "&";
 
-	private HttpClient httpClient = new HttpClient();
-	private HttpMethod httpMethod;
+	HttpClient httpClient = HttpClientBuilder.create().build();
+	private HttpRequestBase httpMethod;
 
 	private String baseUrl;
 
@@ -33,7 +37,7 @@ public class WebClient {
 	
 	public String insertData(String method, String request) {
 		httpMethod = CRUD.CREATE.getHandler(completeURL(method));
-		((PostMethod) httpMethod).setRequestEntity(addRequestBody(request));
+		((HttpPost) httpMethod).setEntity(addRequestBody(request));
 		return processRequest();
 	}
 	
@@ -60,7 +64,7 @@ public class WebClient {
 
 	public String updateData(String method, String request) {
 		httpMethod = CRUD.UPDATE.getHandler(completeURL(method));
-		((PutMethod) httpMethod).setRequestEntity(addRequestBody(request));
+		((HttpPut) httpMethod).setEntity(addRequestBody(request));
 		return processRequest();
 	}
 	
@@ -75,9 +79,9 @@ public class WebClient {
 
 	
 	
-	private RequestEntity addRequestBody(String request) {
+	private StringEntity addRequestBody(String request) {
 		try {
-			return new StringRequestEntity(request, CONTENT_TYPE, ENCODING);
+			return new StringEntity (request, CONTENT_TYPE, ENCODING);
 		} catch (UnsupportedEncodingException e) {
 		}
 		return null;
@@ -107,14 +111,14 @@ public class WebClient {
 	}
 	
 	private String processRequest() {
-		String response = "";
+		
+		HttpResponse response = null;
 		try {
-			httpClient.executeMethod(httpMethod);
-			response = httpMethod.getResponseBodyAsString();
+			response = httpClient.execute(httpMethod);
 			httpMethod.releaseConnection();
-		} catch (HttpException e) {
+		} catch (HttpResponseException e) {
 		} catch (IOException e) {
 		}
-		return response;
+		return response.getStatusLine().toString();
 	}
 }
