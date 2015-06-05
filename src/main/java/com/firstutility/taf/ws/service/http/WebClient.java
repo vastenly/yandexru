@@ -11,8 +11,10 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 public class WebClient {
 
@@ -110,17 +112,18 @@ public class WebClient {
 	private String processRequest() {
 		
 		HttpResponse response = null;
-		String stringResponse = "";
+		String responseString = "";
 		try {
 			response = httpClient.execute(httpMethod);
+			HttpEntity entity = response.getEntity();
+			responseString = EntityUtils.toString(entity, ENCODING);
 			httpMethod.releaseConnection();
-			stringResponse = response.getEntity().getContent().toString();
 		} catch (HttpResponseException e) {
 		} catch (IOException e) {
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return stringResponse;
+		return responseString;
 	}
 }
