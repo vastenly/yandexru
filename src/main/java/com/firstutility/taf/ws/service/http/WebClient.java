@@ -43,11 +43,14 @@ public class WebClient {
 	
 	public WebClient(String baseUrl, String proxyHost, int port, String scheme){
 		this.baseUrl = baseUrl;
-		this.proxy = new HttpHost(proxyHost, port, scheme);
-	    this.proxyConfig = RequestConfig.custom()
-	            .setProxy(proxy)
-	            .build();
-	    useProxy = true;
+		if (!proxyHost.isEmpty()) {
+			this.proxy = new HttpHost(proxyHost, port, scheme);
+		    this.proxyConfig = RequestConfig.custom()
+		            .setProxy(proxy)
+		            .build();
+		    useProxy = true;
+		} else
+			useProxy = false;
 	}
 	
 	private void setproxyConfiguration() {
