@@ -6,12 +6,14 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -25,13 +27,31 @@ public class WebClient {
 	private static final String EQUAL_TO = "=";
 	private static final String AND = "&";
 
-	HttpClient httpClient = HttpClientBuilder.create().build();
+	private HttpClient httpClient = HttpClientBuilder.create().build();
 	private HttpRequestBase httpMethod;
+	
+	private boolean useProxy = false;
+	private HttpHost proxy;
+	private RequestConfig proxyConfig;
 
 	private String baseUrl;
 
 	public WebClient(String baseUrl){
 		this.baseUrl = baseUrl;
+		useProxy = false;
+	}
+	
+	public WebClient(String baseUrl, String proxyHost, int port, String scheme){
+		this.baseUrl = baseUrl;
+		this.proxy = new HttpHost(proxyHost, port, scheme);
+	    this.proxyConfig = RequestConfig.custom()
+	            .setProxy(proxy)
+	            .build();
+	    useProxy = true;
+	}
+	
+	private void setproxyConfiguration() {
+		httpMethod.setConfig(proxyConfig);
 	}
 	
 	public String insertData(String method, String request) {
@@ -80,7 +100,9 @@ public class WebClient {
 	
 	private StringEntity addRequestBody(String request) {
 		try {
-			return new StringEntity (request, CONTENT_TYPE, ENCODING);
+			StringEntity entityRequest = new StringEntity(request, CONTENT_TYPE);
+			entityRequest.setContentEncoding(ENCODING);
+			return entityRequest;
 		} catch (UnsupportedEncodingException e) {
 		}
 		return null;
@@ -114,6 +136,9 @@ public class WebClient {
 		HttpResponse response = null;
 		String responseString = "";
 		try {
+			if (useProxy) {
+				setproxyConfiguration();
+			}
 			response = httpClient.execute(httpMethod);
 			HttpEntity entity = response.getEntity();
 			responseString = EntityUtils.toString(entity, ENCODING);
