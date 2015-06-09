@@ -54,10 +54,6 @@ public class SshConnector {
 	
 	public class SshConnection {
 		
-		public SshConnection() {
-			startSession();
-		}
-		
 		private Session startSession() {
 			log.info("[SshConnector] Init new SSH session.");
 			try {
@@ -76,15 +72,7 @@ public class SshConnector {
 		 * @return initialized SSH connection
 		 */
 		public SshConnected connect() {
-			/*session.allocateDefaultPTY();
-			shell = session.startShell();
-			expect = new ExpectBuilder()
-				.withOutput(shell.getOutputStream())
-			    .withInputs(shell.getInputStream(), shell.getErrorStream())
-			    .withEchoInput(System.out)
-			    .withEchoOutput(System.err)
-			    .withExceptionOnFailure()
-			    .build();*/
+			startSession();
 			return new SshConnected();
 		}
 		
