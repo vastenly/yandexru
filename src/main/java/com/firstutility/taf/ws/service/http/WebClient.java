@@ -16,6 +16,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 public class WebClient {
@@ -103,8 +104,8 @@ public class WebClient {
 	
 	private StringEntity addRequestBody(String request) {
 		try {
-			StringEntity entityRequest = new StringEntity(request, CONTENT_TYPE);
-			entityRequest.setContentEncoding(ENCODING);
+			StringEntity entityRequest = new StringEntity(request, ENCODING);
+			entityRequest.setContentType(CONTENT_TYPE);
 			return entityRequest;
 		} catch (UnsupportedEncodingException e) {
 		}
