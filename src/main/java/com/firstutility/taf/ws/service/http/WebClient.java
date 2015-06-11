@@ -5,13 +5,19 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 public class WebClient {
 
@@ -22,18 +28,39 @@ public class WebClient {
 	private static final String EQUAL_TO = "=";
 	private static final String AND = "&";
 
-	private HttpClient httpClient = new HttpClient();
-	private HttpMethod httpMethod;
+	private HttpClient httpClient = HttpClientBuilder.create().build();
+	private HttpRequestBase httpMethod;
+	
+	private boolean useProxy = false;
+	private HttpHost proxy;
+	private RequestConfig proxyConfig;
 
 	private String baseUrl;
 
 	public WebClient(String baseUrl){
 		this.baseUrl = baseUrl;
+		useProxy = false;
+	}
+	
+	public WebClient(String baseUrl, String proxyHost, int port, String scheme){
+		this.baseUrl = baseUrl;
+		if (!proxyHost.isEmpty()) {
+			this.proxy = new HttpHost(proxyHost, port, scheme);
+		    this.proxyConfig = RequestConfig.custom()
+		            .setProxy(proxy)
+		            .build();
+		    useProxy = true;
+		} else
+			useProxy = false;
+	}
+	
+	private void setproxyConfiguration() {
+		httpMethod.setConfig(proxyConfig);
 	}
 	
 	public String insertData(String method, String request) {
 		httpMethod = CRUD.CREATE.getHandler(completeURL(method));
-		((PostMethod) httpMethod).setRequestEntity(addRequestBody(request));
+		((HttpPost) httpMethod).setEntity(addRequestBody(request));
 		return processRequest();
 	}
 	
@@ -60,7 +87,7 @@ public class WebClient {
 
 	public String updateData(String method, String request) {
 		httpMethod = CRUD.UPDATE.getHandler(completeURL(method));
-		((PutMethod) httpMethod).setRequestEntity(addRequestBody(request));
+		((HttpPut) httpMethod).setEntity(addRequestBody(request));
 		return processRequest();
 	}
 	
@@ -75,9 +102,11 @@ public class WebClient {
 
 	
 	
-	private RequestEntity addRequestBody(String request) {
+	private StringEntity addRequestBody(String request) {
 		try {
-			return new StringRequestEntity(request, CONTENT_TYPE, ENCODING);
+			StringEntity entityRequest = new StringEntity(request, ENCODING);
+			entityRequest.setContentType(CONTENT_TYPE);
+			return entityRequest;
 		} catch (UnsupportedEncodingException e) {
 		}
 		return null;
@@ -107,14 +136,23 @@ public class WebClient {
 	}
 	
 	private String processRequest() {
-		String response = "";
+		
+		HttpResponse response = null;
+		String responseString = "";
 		try {
-			httpClient.executeMethod(httpMethod);
-			response = httpMethod.getResponseBodyAsString();
+			if (useProxy) {
+				setproxyConfiguration();
+			}
+			response = httpClient.execute(httpMethod);
+			HttpEntity entity = response.getEntity();
+			responseString = EntityUtils.toString(entity, ENCODING);
 			httpMethod.releaseConnection();
-		} catch (HttpException e) {
+		} catch (HttpResponseException e) {
 		} catch (IOException e) {
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return response;
+		return responseString;
 	}
 }

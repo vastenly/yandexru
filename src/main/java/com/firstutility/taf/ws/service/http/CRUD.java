@@ -1,36 +1,36 @@
 package com.firstutility.taf.ws.service.http;
 
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.DeleteMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
 
 public enum CRUD {
 	CREATE {
 		@Override
-		public PostMethod getHandler(String url) {
-			return new PostMethod(url);
+		public HttpPost getHandler(String url) {
+			return new HttpPost(url);
 		}
 	},
 	READ {
 		@Override
-		public GetMethod getHandler(String url) {
-			return new GetMethod(url);
+		public HttpGet getHandler(String url) {
+			return new HttpGet(url);
 		}
 	},
 	UPDATE {
 		@Override
-		public PutMethod getHandler(String url) {
-			return new PutMethod(url);
+		public HttpPut getHandler(String url) {
+			return new HttpPut(url);
 		}
 	},
 	DELETE {
 		@Override
-		public DeleteMethod getHandler(String url) {
-			return new DeleteMethod(url);
+		public HttpDelete getHandler(String url) {
+			return new HttpDelete(url);
 		}
 	};
 
-	public abstract HttpMethod getHandler(String url);
+	public abstract HttpRequestBase getHandler(String url);
 }

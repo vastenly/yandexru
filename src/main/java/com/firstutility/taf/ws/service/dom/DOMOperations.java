@@ -178,10 +178,16 @@ public class DOMOperations {
 	private List<String> getResultParameterValues(Node parentNode, String xPathExpression) {
 		List<String> values = new ArrayList<String>();
 		NodeList nodes = getResultParameterNodes(parentNode, xPathExpression);
-		int nodesNumber = nodes.getLength();
-		for(int i = 0; i< nodesNumber; i++){
-			Node node = nodes.item(i);
-			values.add(node.getTextContent());
+		if (nodes != null) {
+			int nodesNumber = nodes.getLength();
+			log.debug("Found " + nodesNumber + " nodes matching XPath " + xPathExpression);
+			
+			for(int i = 0; i< nodesNumber; i++){
+				Node node = nodes.item(i);
+				values.add(node.getTextContent());
+			}
+		} else {
+			log.debug("No nodes found matching XPath " + xPathExpression);
 		}
 		return values;
 	}
@@ -189,10 +195,17 @@ public class DOMOperations {
 	private List<String> getResultParameterText(Node parentNode, String xPathExpression) {
 		List<String> values = new ArrayList<String>();
 		NodeList nodes = getResultParameterNodes(parentNode, xPathExpression);
-		int nodesNumber = nodes.getLength();
-		for(int i = 0; i< nodesNumber; i++){
-			Node node = nodes.item(i);
-			values.add(node.getFirstChild().getNodeValue());
+		if (nodes != null) {
+			int nodesNumber = nodes.getLength();
+			log.debug("Found " + nodesNumber + " nodes matching XPath " + xPathExpression);
+			
+			for(int i = 0; i< nodesNumber; i++){
+				Node node = nodes.item(i);
+				values.add(node.getFirstChild().getNodeValue());
+			}
+			
+		} else {
+			log.debug("No nodes found matching XPath " + xPathExpression);
 		}
 		return values;
 	}
