@@ -1,9 +1,9 @@
 package com.firstutility.taf.ws.service.http;
 
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 
 public enum CRUD {

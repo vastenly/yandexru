@@ -7,9 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-import com.firstutility.taf.core.logging.Logger;
-import com.firstutility.taf.core.logging.ThreadLogger;
-
 public class TestDataGenerator {
 
     public final static String EMPTY = "EMPTY" ;
@@ -45,11 +42,5 @@ public class TestDataGenerator {
         c.setTime(date);
         return format.format(c.getTime());
     }
-    
-    public void fds() {
-    	ThreadLogger.initLogger();
-        Logger log = ThreadLogger.getLogger();
-        log.info("");
-    }
-    
+
 }
