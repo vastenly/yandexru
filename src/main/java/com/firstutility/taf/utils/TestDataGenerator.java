@@ -7,6 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import com.firstutility.taf.core.logging.Logger;
+import com.firstutility.taf.core.logging.ThreadLogger;
+
 public class TestDataGenerator {
 
     public final static String EMPTY = "EMPTY" ;
@@ -26,10 +29,13 @@ public class TestDataGenerator {
 		return format.format(c.getTime());
 	}
 	
-	public static String generateCurrentDate(String template){
+	public static String generateCurrentDate(String template) {
 		Date currentDate = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(currentDate);
+		c.add(Calendar.MINUTE, 10);
 		DateFormat format = new SimpleDateFormat(template);
-		return format.format(currentDate);
+		return format.format(c.getTime());
 	}
 
     public static String parsingInputDate(String inputDate, String dateFormat) throws ParseException {
@@ -39,4 +45,11 @@ public class TestDataGenerator {
         c.setTime(date);
         return format.format(c.getTime());
     }
+    
+    public void fds() {
+    	ThreadLogger.initLogger();
+        Logger log = ThreadLogger.getLogger();
+        log.info("");
+    }
+    
 }

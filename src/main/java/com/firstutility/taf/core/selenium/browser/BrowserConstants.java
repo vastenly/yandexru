@@ -16,6 +16,7 @@ public class BrowserConstants {
 	public static final String CHROME_LINUX_BINARY_PATH ="/usr/bin/google-chrome-stable";
 	public static final String CHROME_PROXY_AUTO_DETECT = "--proxy-auto-detect";
 	public static final String REMOTE_DRIVER_URL = "http/127.0.0.1:4444/wd/hub";
+	public static final String CHROME_CMD_ARGS_1 = "--disable-impl-side-painting";
 	//test properties
 	public static final String TEST_PROPERTIES_PATH = "test.properties";
 	public static final String LOAD_TIMEOUT_PROPERTY = "browser.loadTimeout";
