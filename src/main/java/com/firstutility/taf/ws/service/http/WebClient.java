@@ -5,18 +5,17 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 public class WebClient {

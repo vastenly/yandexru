@@ -26,10 +26,13 @@ public class TestDataGenerator {
 		return format.format(c.getTime());
 	}
 	
-	public static String generateCurrentDate(String template){
+	public static String generateCurrentDate(String template) {
 		Date currentDate = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(currentDate);
+		c.add(Calendar.MINUTE, 10);
 		DateFormat format = new SimpleDateFormat(template);
-		return format.format(currentDate);
+		return format.format(c.getTime());
 	}
 
     public static String parsingInputDate(String inputDate, String dateFormat) throws ParseException {
@@ -39,4 +42,5 @@ public class TestDataGenerator {
         c.setTime(date);
         return format.format(c.getTime());
     }
+
 }
