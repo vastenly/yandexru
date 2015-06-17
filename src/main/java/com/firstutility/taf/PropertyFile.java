@@ -2,7 +2,10 @@ package com.firstutility.taf;
 
 public enum PropertyFile {
 
-	AUTOMATIONSSH_SETTINGS ( "src/main/resources/automationssh.properties", "" )
+	AUTOMATION_SSH_SETTINGS ( "src/main/resources/automation-ssh.properties", "" ),
+	FUSE_SSH_SETTINGS ( "src/main/resources/fuse-ssh.properties", "" ),
+	STAGING_SSH_SETTINGS ( "src/main/resources/staging-ssh.properties", "" ),
+	QA_SSH_SETTINGS ( "src/main/resources/qa-ssh.properties", "" )
 	;
 	
 	private String filePath;
