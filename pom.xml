@@ -23,8 +23,9 @@
 	</distributionManagement>
 	
 	<properties>
-		<selenium.api.version>2.42.2</selenium.api.version>
 		<source.encoding>UTF-8</source.encoding>
+		<selenium.api.version>2.42.2</selenium.api.version>
+		<cucumber-jvm.version>1.1.4</cucumber-jvm.version>
 	</properties>
 
 	<dependencies>
@@ -41,12 +42,6 @@
             <groupId>junit</groupId>
             <artifactId>junit-dep</artifactId>
             <version>4.11</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
             <scope>compile</scope>
         </dependency>
 
@@ -126,6 +121,34 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<!-- Cucumber JVM -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>${cucumber-jvm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber-jvm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber-jvm.version}</version>
+            <!-- <exclusions>
+                <exclusion>
+                    <artifactId>junit</artifactId>
+                    <groupId>junit</groupId>
+                </exclusion>
+            </exclusions> -->
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber-jvm.version}</version>
+        </dependency>
 		
 		
 		<!-- CSV -->
