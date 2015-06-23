@@ -49,10 +49,15 @@ public class CucumberReportUtils {
 	        final gherkin.formatter.model.Scenario uniqueId = (gherkin.formatter.model.Scenario) uniqueIdField.get(description);
 	        
 	        scenarioOutlineName = uniqueId.getName();
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		
 	}		
 	
 	public synchronized static void makeScreenshotOnFail(Browser browser, Scenario scenario) {
