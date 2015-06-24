@@ -52,6 +52,7 @@ public class BrowserInstance {
 				ChromeOptions options = new ChromeOptions();
 				options.setBinary(BrowserConstants.CHROME_LINUX_BINARY_PATH);
 				options.addArguments(BrowserConstants.CHROME_IGNORE_FLAG_CMD_ARGS);
+				options.addArguments(BrowserConstants.CHROME_PROXY_AUTO_DETECT);
 				final DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 				final URL url = new URL(BrowserConstants.REMOTE_DRIVER_URL);
 				capabilities.setCapability(ChromeOptions.CAPABILITY, options);
