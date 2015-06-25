@@ -1,12 +1,12 @@
-package com.firstutility.taf.core.utils.string;
+package com.firstutility.taf.utils.string;
 
 import com.firstutility.taf.core.enums.InetAddressType;
 import com.firstutility.taf.core.enums.Protocol;
-import com.firstutility.taf.core.utils.exceptions.InvalidDomainNameException;
-import com.firstutility.taf.core.utils.exceptions.InvalidIPv4AddressException;
-import com.firstutility.taf.core.utils.exceptions.InvalidIPv6AddressException;
-import com.firstutility.taf.core.utils.exceptions.IpOctetOutOfBoundException;
-import com.firstutility.taf.core.utils.exceptions.TcpUdpPortOutOfBoundException;
+import com.firstutility.taf.utils.exceptions.InvalidDomainNameException;
+import com.firstutility.taf.utils.exceptions.InvalidIPv4AddressException;
+import com.firstutility.taf.utils.exceptions.InvalidIPv6AddressException;
+import com.firstutility.taf.utils.exceptions.IpOctetOutOfBoundException;
+import com.firstutility.taf.utils.exceptions.TcpUdpPortOutOfBoundException;
 
 public class StringPattern {
 

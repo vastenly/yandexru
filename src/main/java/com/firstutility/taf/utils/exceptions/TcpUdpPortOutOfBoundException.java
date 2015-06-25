@@ -1,4 +1,4 @@
-package com.firstutility.taf.core.utils.exceptions;
+package com.firstutility.taf.utils.exceptions;
 
 public class TcpUdpPortOutOfBoundException extends IllegalArgumentException {
 	
