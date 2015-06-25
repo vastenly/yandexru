@@ -1,4 +1,6 @@
-package com.firstutility.taf.core.utils.string;
+package com.firstutility.taf.utils.string;
+
+import java.util.regex.Pattern;
 
 import sun.net.util.IPAddressUtil;
 
@@ -23,35 +25,20 @@ public class StringValidator {
 		return IPAddressUtil.isIPv6LiteralAddress(ipAddress);
 	}
 	
-	public static boolean isDomainName(String address) {
-		if ( address.length() == 0 )
-			return false;
-		int dotIndex = address.indexOf(".");
-		if ( dotIndex == -1 )
-			return false;
-		String currentDomainPart = "";
-		while (dotIndex != -1) {
-			if (dotIndex+1 == address.length())
-				return false;
-			currentDomainPart = address.substring(0, dotIndex); 
-			if (currentDomainPart.length() < 1)
-				return false;
-			if (containsSpecialSymbols(currentDomainPart))
-				return false;
-			address = address.substring(dotIndex+1);
-			dotIndex = address.indexOf(".");
-		}
-		return containsSpecialSymbols(address);
+	public static boolean isDomainName(String domainName) {
+		String domainNamePattern = "^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$";
+		Pattern pattern = Pattern.compile(domainNamePattern);
+		return pattern.matcher(domainName).find();
 	}
 	
 	public static boolean containsSpecialSymbols(String str) {
 		//Check against following special symbols: !@#$%^&*()_+|-=\{}[]:";'<>?,./   -- need feedback from ?
-		if( str.indexOf("!")!=-1 || str.indexOf("@")!=-1 || str.indexOf("#")!=-1 ||  str.indexOf("$")!=-1 || str.indexOf("%")!=-1 || 
+		if (str.indexOf("!")!=-1 || str.indexOf("@")!=-1 || str.indexOf("#")!=-1 ||  str.indexOf("$")!=-1 || str.indexOf("%")!=-1 || 
 				str.indexOf("^")!=-1 || str.indexOf("&")!=-1 || str.indexOf("*")!=-1 || str.indexOf("(")!=-1 || str.indexOf(")")!=-1 || 
 				str.indexOf("_")!=-1 || str.indexOf("+")!=-1 || str.indexOf("|")!=-1 || str.indexOf("-")!=-1 || str.indexOf("=")!=-1 || 
 				str.indexOf("\\")!=-1 || str.indexOf("{")!=-1 || str.indexOf("}")!=-1 || str.indexOf("[")!=-1 || str.indexOf("]")!=-1 ||
 				str.indexOf(":")!=-1 || str.indexOf("\"")!=-1 || str.indexOf(";")!=-1 || str.indexOf("'")!=-1 || str.indexOf("<")!=-1 ||
-				str.indexOf(">")!=-1 || str.indexOf("?")!=-1 || str.indexOf(",")!=-1 || str.indexOf(".")!=-1 || str.indexOf("/")!=-1 )
+				str.indexOf(">")!=-1 || str.indexOf("?")!=-1 || str.indexOf(",")!=-1 || str.indexOf(".")!=-1 || str.indexOf("/")!=-1)
 			return false;
 		return true;
 	}
