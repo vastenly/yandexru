@@ -127,7 +127,7 @@ public class TestRunner extends Assert {
 		localDriver.set(null);
 	}
 	
-	public static void closeAll() {
+	public void closeAll() {
 		for (WebDriver driver : driversPool) {
             driver.quit();
         }

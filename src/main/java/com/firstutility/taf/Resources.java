@@ -20,7 +20,7 @@ public class Resources {
 			PropertyFileReader propFileReader = new PropertyFileReader();
 			log.debug("[Resources] Load [" +propertyFile.getFilePath()+ "] property file.");
 			propFileReader.loadPropFile( propertyFile.getFilePath() );
-			properties = propFileReader.getProperties();
+			setProperties(propFileReader.getProperties());
 			log.info("[Resources] Get property value for [" +key+ "] property key.");
 			return propFileReader.getValue(key);
 		} else if ((propertyFile).getBundlePath() != null) {
@@ -37,7 +37,7 @@ public class Resources {
 		if (!filePath.isEmpty()) {
 			PropertyFileReader propFileReader = new PropertyFileReader();
 			propFileReader.loadPropFile( filePath );
-			properties = propFileReader.getProperties();
+			setProperties(propFileReader.getProperties());
 			return propFileReader.getValue(key);
 		}
 		throw new IllegalArgumentException();
@@ -70,5 +70,13 @@ public class Resources {
 	public static void cleanPropertiesHash() { 
 		Properties properties = new Properties();
 		new PropertyFileWriter().setProperties(properties);
+	}
+
+	public static Properties getProperties() {
+		return properties;
+	}
+
+	public static void setProperties(Properties properties) {
+		Resources.properties = properties;
 	}
 }

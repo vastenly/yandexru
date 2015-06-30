@@ -84,16 +84,16 @@ public enum DatabaseConnection {
 	protected abstract void initiateConnection();
 	
 	public Database connect() {
-		if(!dbPool.containsKey(this)) {
+		if (!dbPool.containsKey(this)) {
 			initiateConnection();
-			log.info ("Establishing database connection to " + name());
+			log.info("[DatabaseConnection] Establishing database connection to " + name());
 			dbPool.put(this, new Database(toString(), DB_URL, DB_USERNAME, DB_PASSWORD, DB_DRIVER_CLASS_NAME));
 		}
 		return dbPool.get(this);
 	}
 	
 	public static void closeAll() {
-		for(Database db : dbPool.values()) {
+		for (Database db : dbPool.values()) {
 			db.closeConnection();
 		}
 		dbPool.clear();

@@ -32,10 +32,6 @@ public class PropertyFileReader {
 	public Properties getProperties() {
 		return properties;
 	}
-//	
-//	public void setProperties(Properties properties) {
-//		this.properties = properties;
-//	}
 
 	public String getValue(String key) {
 		return properties.getProperty(key);

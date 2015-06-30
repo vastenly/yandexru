@@ -37,10 +37,9 @@ import org.xml.sax.SAXException;
 
 public class DOMOperations {
 	
-	private static final Logger log = Logger.getLogger(DOMOperations.class);
-	
 	private static final String ENCODING = "UTF-8";
-	
+	private static final Logger log = Logger.getLogger(DOMOperations.class);
+
 	public String generateStringWrappedObject(String rootElement, Map<String, String> parameters, String xslPath) {
 		Document document = buildWrappedObject(rootElement, parameters, xslPath);
 		return convertToString(document);
@@ -135,8 +134,10 @@ public class DOMOperations {
 			log.error(e);
 		} catch (IOException e) {
 			log.error(e);
+		} catch (IllegalArgumentException e) {
+			log.error(e);
 		}
-		return null;
+		throw new NullPointerException("[DOMOperations] Input string is NOT parsed, DOM document is NOT created!");
 	}
 
 	private Document completeRequest(Document node, InputStream requestPath) {
