@@ -26,13 +26,40 @@
 	<logger name="org.springframework">
 		<level value="OFF"/>
 	</logger>
+	<logger name="org.springframework.beans.factory.xml">
+		<level value="OFF"/>
+	</logger>
 	<logger name="httpclient.wire">
 		<level value="OFF"/>
 	</logger>
-	<logger name="com.firstutility.reach">
+		<logger name="org.apache.http">
+  		<level value="OFF"/> 
+	</logger>
+	<logger name="org.apache.http.wire">
+  		<level value="OFF"/> 
+	</logger>
+	<logger name="org.apache.http.impl.conn">
+  		<level value="OFF"/> 
+	</logger>
+	<logger name="org.apache.http.impl.conn.wire">
+  		<level value="OFF"/> 
+	</logger>
+	<logger name="org.apache.commons.httpclient">
 		<level value="OFF"/>
 	</logger>
-	<logger name="net.schmizz.sshj">
+	<logger name="org.apache.commons.logging.simplelog.log.org.apache.http.wire">
+		<level value="OFF"/>
+	</logger>
+	<logger name="org.apache.commons.logging.simplelog.log.org.apache.http.impl.conn">
+		<level value="OFF"/>
+	</logger>
+	<logger name="org.apache.commons.logging.simplelog.log.org.apache.http.impl.client">
+		<level value="OFF"/>
+	</logger>
+	<logger name="org.apache.commons.logging.simplelog.log.org.apache.http.client">
+		<level value="OFF"/>
+	</logger>
+	<logger name="com.firstutility.reach">
 		<level value="OFF"/>
 	</logger>
 	
@@ -41,5 +68,5 @@
         <appender-ref ref="console"></appender-ref>	
 		<!-- <appender-ref ref="html"></appender-ref> -->	
     </root>	
-
+	
 </log4j:configuration>

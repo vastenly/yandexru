@@ -10,56 +10,52 @@ import org.apache.log4j.Logger;
 
 public class Database {
 	
-	private final Logger log = Logger.getLogger(Database.class);
+	private static final Logger log = Logger.getLogger(Database.class);
 	
+	private String dbNname;
 	private Connection connection;
 	
-	private String name;
-	
-	public Database(String name, String dbUrl, String dbUser, String dbPassword, String dbDriverClassName) {
-		this.setName(name);
+	public Database(String dbName, String dbUrl, String dbUser, String dbPassword, String dbDriverClassName) {
+		this.setDbName(dbName);
 		try {
 			Class.forName(dbDriverClassName);
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
 			connection = DriverManager.getConnection( dbUrl, dbUser, dbPassword );
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		log.info("Connection established");
+		log.info("[Database] Connection to [" +dbName+ "] database has established.");
 	}
 	
-	public ResultSet executeQuery(String query) throws SQLException {
+	public ResultSet executeQuery(String query) {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			validateConnection();
 			validateQuery(query);
 			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			log.debug("Executing query - " + query);
+			log.debug("[Database] Executing query: \n" + query);
 			rs =  stmt.executeQuery(query);
-		} catch (SQLException e ) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (DatabaseException e ) {
+		} catch (DatabaseException e) {
 			e.printStackTrace();
 		}
 		return rs;
 	}
 	
-	private void validateConnection() throws DatabaseException {
+	private void validateConnection() {
 		if (connection == null) {
-			String errMsg = "Connection to database has not been established.";
+			String errMsg = "[Database] Connection to database [" +getDbName()+ "] database has not been established.";
 			log.error(errMsg);
 			throw new DatabaseException(errMsg);
 		}
 	}
 
-	private void validateQuery(String query) throws DatabaseException {
+	private void validateQuery(String query) {
 		if (query == null || query.isEmpty()) {
-			String errMsg = "Query cannot be null";
+			String errMsg = "[Database] Query cann't be NULL!";
 			log.error(errMsg);
 			throw new DatabaseException(errMsg);
 		}
@@ -67,17 +63,18 @@ public class Database {
 	
 	public void closeConnection() {
 		try {
-			connection.close();
+			if (connection != null)
+				connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public String getName() {
-		return name;
+	public String getDbName() {
+		return dbNname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDbName(String dbNname) {
+		this.dbNname = dbNname;
 	}
 }

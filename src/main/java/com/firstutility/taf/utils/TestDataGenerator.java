@@ -17,9 +17,14 @@ public class TestDataGenerator {
 		return clazz.getEnumConstants()[x];
 	}
 
-	public static String incrementInputDate(String inputDate, String dateFormat) throws ParseException {
+	public static String incrementInputDate(String inputDate, String dateFormat) {
 		SimpleDateFormat format = new SimpleDateFormat(dateFormat);
-		Date date = format.parse(inputDate);
+		Date date = null;
+		try {
+			date = format.parse(inputDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.DAY_OF_MONTH, 1);
@@ -35,9 +40,14 @@ public class TestDataGenerator {
 		return format.format(c.getTime());
 	}
 
-    public static String parsingInputDate(String inputDate, String dateFormat) throws ParseException {
+    public static String parsingInputDate(String inputDate, String dateFormat) {
         SimpleDateFormat format = new SimpleDateFormat(dateFormat);
-        Date date = format.parse(inputDate);
+        Date date = null;
+		try {
+			date = format.parse(inputDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         return format.format(c.getTime());

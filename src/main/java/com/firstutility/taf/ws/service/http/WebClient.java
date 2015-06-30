@@ -17,6 +17,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 public class WebClient {
 
@@ -33,24 +34,24 @@ public class WebClient {
 	private boolean useProxy = false;
 	private HttpHost proxy;
 	private RequestConfig proxyConfig;
+	
+	private static final Logger log = Logger.getLogger(WebClient.class);
 
 	private String baseUrl;
 
-	public WebClient(String baseUrl){
+	public WebClient(String baseUrl) {
 		this.baseUrl = baseUrl;
-		useProxy = false;
+		this.useProxy = false;
 	}
 	
-	public WebClient(String baseUrl, String proxyHost, int port, String scheme){
+	public WebClient(String baseUrl, String proxyHost, int port, String scheme) {
 		this.baseUrl = baseUrl;
 		if (!proxyHost.isEmpty()) {
 			this.proxy = new HttpHost(proxyHost, port, scheme);
-		    this.proxyConfig = RequestConfig.custom()
-		            .setProxy(proxy)
-		            .build();
-		    useProxy = true;
+		    this.proxyConfig = RequestConfig.custom().setProxy(proxy).build();
+		    this.useProxy = true;
 		} else
-			useProxy = false;
+			this.useProxy = false;
 	}
 	
 	private void setproxyConfiguration() {
@@ -58,6 +59,7 @@ public class WebClient {
 	}
 	
 	public String insertData(String method, String request) {
+		log.info("[WebClient] Execute [" +baseUrl+method+ "] POST request with [" +request+ "] request content.");
 		httpMethod = CRUD.CREATE.getHandler(completeURL(method));
 		((HttpPost) httpMethod).setEntity(addRequestBody(request));
 		return processRequest();
@@ -68,6 +70,7 @@ public class WebClient {
 	}
 
 	public String readData(String method, Map<String, String> params) {
+		log.info("[WebClient] Execute [" + baseUrl+method+ "] GET request.");
 		httpMethod = CRUD.READ.getHandler(completeURL(method, params));
 		return processRequest();
 	}
@@ -85,6 +88,7 @@ public class WebClient {
 	}
 
 	public String updateData(String method, String request) {
+		log.info("[WebClient] Execute [" +baseUrl+method+ "] PUT request with [" +request+ "] request content.");
 		httpMethod = CRUD.UPDATE.getHandler(completeURL(method));
 		((HttpPut) httpMethod).setEntity(addRequestBody(request));
 		return processRequest();
@@ -94,27 +98,25 @@ public class WebClient {
 		return updateData(request);	
 	}
 	
-	@SuppressWarnings("unused")
-	private void deleteData() {
-		httpMethod = CRUD.DELETE.getHandler(baseUrl);
+	public String deleteData(String method) {
+		httpMethod = CRUD.DELETE.getHandler(completeURL(method));
+		return processRequest();
 	}
 
-	
-	
 	private StringEntity addRequestBody(String request) {
+		StringEntity entityRequest = null;
 		try {
-			StringEntity entityRequest = new StringEntity(request, ENCODING);
-			entityRequest.setContentType(CONTENT_TYPE);
-			return entityRequest;
+			entityRequest = new StringEntity(request, ENCODING);
 		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
-		return null;
+		entityRequest.setContentType(CONTENT_TYPE);
+		return entityRequest;
 	}
 	
-	private String completeURL(String method){
-		if(method == null){
+	private String completeURL(String method) {
+		if (method == null)
 			method = "";
-		}
 		return baseUrl + method;
 	}
 	
@@ -126,9 +128,8 @@ public class WebClient {
 			while (param.hasNext()) {
 				String paramKey = param.next();
 				uri.append(paramKey).append(EQUAL_TO).append(params.get(paramKey));
-				if (param.hasNext()) {
+				if (param.hasNext())
 					uri.append(AND);
-				}
 			}
 		}
 		return uri.toString();
@@ -139,17 +140,19 @@ public class WebClient {
 		HttpResponse response = null;
 		String responseString = "";
 		try {
-			if (useProxy) {
+			if (useProxy)
 				setproxyConfiguration();
-			}
 			response = httpClient.execute(httpMethod);
 			HttpEntity entity = response.getEntity();
 			responseString = EntityUtils.toString(entity, ENCODING);
+			
+			log.debug("[WebClient] responseString: \n" + responseString);
 			httpMethod.releaseConnection();
 		} catch (HttpResponseException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
 		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return responseString;
