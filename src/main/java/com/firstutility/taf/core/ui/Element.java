@@ -175,6 +175,11 @@ public class Element extends TestRunner {
 		}
 	}
 	
+	public void jsClick() {
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].click();", driver.findElement(lh.getByType(locator)));
+	}
+	
 	public void doubleClick() {
 		Actions builder = new Actions(driver);
 		builder.doubleClick(driver.findElement(lh.getByType(locator))).build().perform();

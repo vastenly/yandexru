@@ -25,7 +25,7 @@ public class EditableElement extends Element {
 	}
 	
 	public boolean isEditable() {
-		if (isVisible() && isEditable())
+		if (isVisible() && isEnabled())
 			return true;
 		return false;
 	}
