@@ -1,5 +1,6 @@
 package com.firstutility.taf.core.ui.controls;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import com.firstutility.taf.core.ui.EditableElement;
@@ -13,6 +14,11 @@ public class Input extends EditableElement {
 
 	public Input(String locator, String name) {
 		super(locator, name);
+	}
+	
+	public void jsSetValue(String value) {
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].setAttribute('value', '" + value +"')", driver.findElement(lh.getByType(locator)));
 	}
 	
 	public void setValue(String value) {

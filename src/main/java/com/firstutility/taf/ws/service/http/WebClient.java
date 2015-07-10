@@ -59,7 +59,7 @@ public class WebClient {
 	}
 	
 	public String insertData(String method, String request) {
-		log.info("[WebClient] Execute [" +baseUrl+method+ "] POST request with [" +request+ "] request content.");
+		log.debug("[WebClient] Execute [" +baseUrl+method+ "] POST request with [" +request+ "] request content.");
 		httpMethod = CRUD.CREATE.getHandler(completeURL(method));
 		((HttpPost) httpMethod).setEntity(addRequestBody(request));
 		return processRequest();
@@ -70,7 +70,7 @@ public class WebClient {
 	}
 
 	public String readData(String method, Map<String, String> params) {
-		log.info("[WebClient] Execute [" + baseUrl+method+ "] GET request.");
+		log.debug("[WebClient] Execute [" + baseUrl+method+ "] GET request.");
 		httpMethod = CRUD.READ.getHandler(completeURL(method, params));
 		return processRequest();
 	}
@@ -88,7 +88,7 @@ public class WebClient {
 	}
 
 	public String updateData(String method, String request) {
-		log.info("[WebClient] Execute [" +baseUrl+method+ "] PUT request with [" +request+ "] request content.");
+		log.debug("[WebClient] Execute [" +baseUrl+method+ "] PUT request with [" +request+ "] request content.");
 		httpMethod = CRUD.UPDATE.getHandler(completeURL(method));
 		((HttpPut) httpMethod).setEntity(addRequestBody(request));
 		return processRequest();
