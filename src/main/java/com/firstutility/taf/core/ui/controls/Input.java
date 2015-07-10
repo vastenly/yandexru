@@ -4,6 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import com.firstutility.taf.core.ui.EditableElement;
+import com.firstutility.taf.core.ui.exceptions.ElementNotFoundException;
 import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
 
 public class Input extends EditableElement {
@@ -17,8 +18,19 @@ public class Input extends EditableElement {
 	}
 	
 	public void jsSetValue(String value) {
-		JavascriptExecutor executor = (JavascriptExecutor)driver;
-		executor.executeScript("arguments[0].setAttribute('value', '" + value +"')", driver.findElement(lh.getByType(locator)));
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		js.executeScript("arguments[0].setAttribute('value', '" + value +"')", driver.findElement(lh.getByType(locator)));
+	}
+	
+	public void jQuerySetValue(String value) {
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		WebElement input = driver.findElement(lh.getByType(locator));
+		if (input.getAttribute("id") != null)
+			js.executeScript("$(\"" + input.getAttribute("id") + "\").val( "+ value +" );");
+		else if (input.getAttribute("name") != null)
+			js.executeScript("$(\"" + input.getAttribute("name") + "\").val( "+ value +" );");
+		else
+			throw new ElementNotFoundException("[Input] Could not find attributes id or name on Input with locator " + getLocator() + "]");
 	}
 	
 	public void setValue(String value) {
