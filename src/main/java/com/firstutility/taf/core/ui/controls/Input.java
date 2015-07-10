@@ -26,9 +26,9 @@ public class Input extends EditableElement {
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		WebElement input = driver.findElement(lh.getByType(locator));
 		if (input.getAttribute("id") != null)
-			js.executeScript("$(\"" + input.getAttribute("id") + "\").val( "+ value +" );");
+			js.executeScript("$(" + input.getAttribute("id") + ").val( '"+ value +"' );");
 		else if (input.getAttribute("name") != null)
-			js.executeScript("$(\"" + input.getAttribute("name") + "\").val( "+ value +" );");
+			js.executeScript("$(" + input.getAttribute("name") + ").val( '"+ value +"' );");
 		else
 			throw new ElementNotFoundException("[Input] Could not find attributes id or name on Input with locator " + getLocator() + "]");
 	}
