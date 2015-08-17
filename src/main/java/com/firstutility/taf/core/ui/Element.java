@@ -300,7 +300,7 @@ public class Element extends TestRunner {
 	}
 	
 	public Element mouseOver() {
-		Locatable hoverItem = (Locatable) driver.findElements(lh.getByType(locator));
+		Locatable hoverItem = (Locatable) driver.findElement(lh.getByType(locator));
 		Mouse mouse = ((HasInputDevices) driver).getMouse();
 		mouse.mouseMove(hoverItem.getCoordinates()); 
 		return this;
@@ -310,4 +310,10 @@ public class Element extends TestRunner {
 		
 	}
 	
+	public Element mouseHover() {
+		Actions action = new Actions(driver);
+		Actions hoverOverRegistrar = action.moveToElement(driver.findElement(lh.getByType(locator)));
+		hoverOverRegistrar.perform();
+		return this;
+	}
 }
