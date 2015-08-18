@@ -60,8 +60,6 @@ public class Browser extends TestRunner {
 		}
 	}
 	
-	private Alert alert;
-	
 	public void waitForTimeout(int timeout, TimeUnit timeUnit) {
 		try {
 			switch (timeUnit) {
@@ -82,6 +80,8 @@ public class Browser extends TestRunner {
 		}
 	}
 	
+	private Alert alert;
+	
 	public boolean isAlertPresent() {
 		try {
 			waitForTimeout(10, TimeUnit.SECONDS);
@@ -92,30 +92,66 @@ public class Browser extends TestRunner {
 		}	
 	}
 	
-	public void closeUnexpectedAlert() {
+	public String getAlertText() {
+		String alertText = null;
 		if (isAlertPresent()) {
-			alert.dismiss();
+			alertText = alert.getText();
 		}
+		return alertText;
 	}
 	
-	public String acceptAlert() {
-		try {
-			// Check the presence of alert
-			if(isAlertPresent()){
-			Alert alert = driver.switchTo().alert();
-			String alertMessage = alert.getText();
-			// if present consume the alert
+	/**
+     * Accept currently active modal dialog for this particular driver instance.
+     * @return A current Browser instance.
+     * @throws BrowserAlertNotFoundException if the dialog cannot be found.
+     */
+	public Browser acceptAlert() {
+		if (isAlertPresent()) {
 			log.info("[Browser] Accept browser alert popup.");
 			alert.accept();
-			driver.switchTo().defaultContent();
-			return alertMessage;
-			}
-			return null;
-		} catch (NoAlertPresentException e) {
-			// Alert not present
-			log.error(e);
-			throw new BrowserAlertNotFoundException("[Browser] Expected browser alert/popup NOT found!");
+		} else {
+			throw new BrowserAlertNotFoundException("[Browser] Expected browser alert NOT found!");
 		}
+		return this;
+	}
+	
+	/**
+     * Accept currently active modal dialog (if such present) for this particular driver instance.
+     * @return A current Browser instance.
+     */
+	public Browser acceptUnexpectedAlert() {
+		if (isAlertPresent()) {
+			log.info("[Browser] Accept unexpected browser alert popup.");
+			alert.accept();
+		}
+		return this;
+	}
+	
+	/**
+     * Close currently active modal dialog for this particular driver instance.
+     * @return A current Browser instance.
+     * @throws BrowserAlertNotFoundException if the dialog cannot be found.
+     */
+	public Browser closeAlert() {
+		if (isAlertPresent()) {
+			log.info("[Browser] Dismiss browser alert popup.");
+			alert.dismiss();
+		} else {
+			throw new BrowserAlertNotFoundException("[Browser] Expected browser alert NOT found!");
+		}
+		return this;
+	}
+
+	/**
+     * Close currently active modal dialog (if such present) for this particular driver instance.
+     * @return A current Browser instance.
+     */
+	public Browser closeUnexpectedAlert() {
+		if (isAlertPresent()) {
+			log.info("[Browser] Dismiss unexpected browser alert popup.");
+			alert.dismiss();
+		}
+		return this;
 	}
 	
 	public void captureScreen() {

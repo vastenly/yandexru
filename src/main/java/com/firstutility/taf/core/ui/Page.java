@@ -3,7 +3,12 @@ package com.firstutility.taf.core.ui;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchFrameException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.firstutility.taf.core.selenium.wd.TestRunner;
 import com.firstutility.taf.core.ui.exceptions.PageContentNotFoundException;
@@ -49,10 +54,39 @@ public class Page extends TestRunner {
 		}
 	}
 	
-	public void waitForPageToLoad(int timeInSeconds){
-		driver.manage().timeouts().pageLoadTimeout(timeInSeconds, TimeUnit.SECONDS);
+	public Object jsExec(String jsString) {
+		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+		return jsExecutor.executeScript(jsString);
 	}
 	
+	public boolean waitForPageToLoad() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+	    
+		// wait for jQuery to load
+		ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+			@Override
+		    public Boolean apply(WebDriver driver) {
+				try {
+					return ((Long) jsExec("return jQuery.active") == 0);
+		        } catch (WebDriverException e) {
+		        	return true;
+		        }
+		    }
+		 };
+		// wait for JavaScript to load
+		ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				return jsExec("return document.readyState").toString().equals("complete");
+			}
+		};
+		return wait.until(jsLoad) && wait.until(jQueryLoad);
+	}
+	
+	public void waitForPageToLoad(int timeInSeconds) {
+		driver.manage().timeouts().pageLoadTimeout(timeInSeconds, TimeUnit.SECONDS);
+	}
+
 	public void waitForTimeout(int timeout, TimeUnit timeUnit) {
 		try {
 			switch (timeUnit) {

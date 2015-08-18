@@ -312,8 +312,8 @@ public class Element extends TestRunner {
 	
 	public Element mouseHover() {
 		Actions action = new Actions(driver);
-		Actions hoverOverRegistrar = action.moveToElement(driver.findElement(lh.getByType(locator)));
-		hoverOverRegistrar.perform();
+		Actions hover = action.moveToElement(driver.findElement(lh.getByType(locator)));
+		hover.perform();
 		return this;
 	}
 }
