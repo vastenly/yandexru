@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.firstutility.taf</groupId>
 	<artifactId>taf-core</artifactId>
-	<version>0.17-SNAPSHOT</version>
+	<version>0.18-SNAPSHOT</version>
 
 	<scm>
 		<connection>scm:git:ssh://git@build-tools-ec2.auto.impello.co.uk:7999/uat/test-automation-framework.git</connection>
@@ -181,6 +181,16 @@
 					<tagNameFormat>v@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <encoding>${source.encoding}</encoding>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 

@@ -45,6 +45,22 @@ public class Database {
 		return rs;
 	}
 	
+	public void executeUpdate(String query) {
+		Statement stmt = null;
+		try {
+			validateConnection();
+			validateQuery(query);
+			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			log.debug("[Database] Executing query: \n" + query);
+			int count =  stmt.executeUpdate(query);
+			log.debug("Number of updated rows: "+ count);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void validateConnection() {
 		if (connection == null) {
 			String errMsg = "[Database] Connection to database [" +getDbName()+ "] database has not been established.";
