@@ -16,7 +16,7 @@ public class FileUtils {
 	public static File getFile(String filePath) {
 		if (isNotNullOrEmpty(filePath))
 			return new File(filePath);
-		throw new IllegalArgumentException("[FileUtils] Defined file path is NULL or empty.");
+		throw new IllegalArgumentException("[FileUtils] Defined file path is NULL or empty!");
 	}
 
 	public static boolean isFileExist(String filePath) {

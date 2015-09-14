@@ -5,12 +5,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
+import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -164,15 +165,11 @@ public class Element extends TestRunner {
 //1
 	
 	public void click() {
-		try {
-			if (isDisplayed()) {
-				driver.findElement(lh.getByType(locator)).click();
-			}
-		} catch (IllegalStateException e) {
-			log.error(e);
-		} catch (StaleElementReferenceException e) {
-			log.error(e);
+		if (isDisplayed()) {
+			driver.findElement(lh.getByType(locator)).click();
+			return;
 		}
+		throw new IllegalStateException("[Element] Element [" +locator+ "] is NOT present in DOM or is NOT visible!");
 	}
 	
 	public void jsClick() {
@@ -314,6 +311,12 @@ public class Element extends TestRunner {
 		Actions action = new Actions(driver);
 		Actions hover = action.moveToElement(driver.findElement(lh.getByType(locator)));
 		hover.perform();
+		return this;
+	}
+	
+	public Element pressKey(Keys keys) {
+		Keyboard keyboard = ((HasInputDevices) driver).getKeyboard();
+		keyboard.pressKey(keys);
 		return this;
 	}
 }

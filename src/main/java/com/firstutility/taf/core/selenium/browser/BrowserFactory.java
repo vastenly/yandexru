@@ -43,7 +43,7 @@ public class BrowserFactory {
         }
     }
 
-	public synchronized static BrowserInstance getCurrentBrowserInstance() {
+	public synchronized BrowserInstance getCurrentBrowserInstance() {
 		return browserInstance.get();
 	}
 }

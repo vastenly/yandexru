@@ -1,6 +1,6 @@
 package com.firstutility.taf.utils;
 
-public class StringUtils {
+public class StringUtils extends org.apache.commons.lang3.StringUtils {
 	
 	public static boolean isNull(String str) {
 		return str == null;

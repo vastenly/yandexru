@@ -2,12 +2,14 @@ package com.firstutility.taf.utils.string;
 
 import java.util.regex.Pattern;
 
+import com.firstutility.taf.core.enums.InetAddressType;
+
 import sun.net.util.IPAddressUtil;
 
 public class StringValidator {
 
 	public static boolean isIPv4Address(String ipAddress) {
-		if( ipAddress.length() == 0 )
+		if (ipAddress.length() == 0)
 			return false;
 		int number;
 		String octets[] = ipAddress.split("\\.");
@@ -15,7 +17,7 @@ public class StringValidator {
 			return false;
 		for (int i=0; i<4; i++) {
 			number = Integer.parseInt( octets[i] );
-			if ( !isIPOctet(number) )
+			if (!isIPOctet(number))
 				return false;
 		}			
 		return true; 
@@ -31,6 +33,16 @@ public class StringValidator {
 		return pattern.matcher(domainName).find();
 	}
 	
+	public static InetAddressType getInetAddressType(String inetAddress) {
+		if (isDomainName(inetAddress))
+			return InetAddressType.DOMAIN_NAME;
+		if (isIPv4Address(inetAddress))
+			return InetAddressType.IPv4;
+		if (isIPv6Address(inetAddress))
+			return InetAddressType.IPv6;
+		throw new IllegalArgumentException("Ivalid inet address provided [" +inetAddress+ "]!");
+	 }
+	
 	public static boolean containsSpecialSymbols(String str) {
 		//Check against following special symbols: !@#$%^&*()_+|-=\{}[]:";'<>?,./   -- need feedback from ?
 		if (str.indexOf("!")!=-1 || str.indexOf("@")!=-1 || str.indexOf("#")!=-1 ||  str.indexOf("$")!=-1 || str.indexOf("%")!=-1 || 
@@ -44,10 +56,10 @@ public class StringValidator {
 	}
 	
 	public static boolean isTcpUdpPort(int port) {
-		return ( port>=0 && port<=65535 );
+		return (port>=0 && port<=65535);
 	}
 	
 	public static boolean isIPOctet(int number) {
-		return ( number>=0 && number<=255 );
+		return (number>=0 && number<=255);
 	}
 }

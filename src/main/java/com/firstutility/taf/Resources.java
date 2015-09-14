@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
+import static com.firstutility.taf.utils.StringUtils.*;
 import com.firstutility.taf.utils.file.props.PropertyFileReader;
 import com.firstutility.taf.utils.file.props.PropertyFileWriter;
 
@@ -66,6 +67,16 @@ public class Resources {
 //		Properties properties = PropertyFileReader.getProperties();
 //		new PropertyFileWriter().setProperties(properties);
 //	}
+	
+	public static Properties loadProperties(String filePath) {
+		if (isNullOrEmpty(filePath))
+			throw new IllegalArgumentException("[Resources] Defined file path is NULL or empty!");
+		log.info("[Resources] Load properties from [" +filePath+ "] property file.");
+		PropertyFileReader pfr = new PropertyFileReader();
+		pfr.loadPropFile(filePath);
+		pfr.getProperties();
+		return pfr.getProperties();
+	}
 	
 	public static void cleanPropertiesHash() { 
 		Properties properties = new Properties();
