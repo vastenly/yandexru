@@ -10,10 +10,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.xpath.XPathFactory;
 
 public class DOMFactory {
+	
 	public static final ThreadLocal<DocumentBuilderFactory> localDocumentBuilderFactory = new ThreadLocal<DocumentBuilderFactory>() {
 		protected DocumentBuilderFactory initialValue() {
-			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			documentBuilderFactory.setNamespaceAware(true);
 			return documentBuilderFactory;
 		}
@@ -53,7 +53,6 @@ public class DOMFactory {
 		}
 	};
 	
-	@SuppressWarnings("restriction")
 	public static final ThreadLocal<XMLInputFactory> localXMLInputFactory = new ThreadLocal<XMLInputFactory>() {
 		protected XMLInputFactory initialValue() {
 			return XMLInputFactory.newInstance();

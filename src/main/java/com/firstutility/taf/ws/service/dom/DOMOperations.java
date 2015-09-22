@@ -1,6 +1,8 @@
 package com.firstutility.taf.ws.service.dom;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -73,8 +75,15 @@ public class DOMOperations {
 		return createDocument(rootElement, parameters);
 	}
 	
-	private Document insertInTemplate (Document documentObject, String templatePath) {
-		InputStream template = getClass().getClassLoader().getResourceAsStream(templatePath);
+	private Document insertInTemplate (Document documentObject, String reqTemplateFilePath) {
+		log.info("[DOMOperations] Request content body loaded from [" +reqTemplateFilePath+ "] file.");
+		InputStream template = null;
+		try {
+			template = new FileInputStream(reqTemplateFilePath);
+		} catch (FileNotFoundException e) {
+			log.error(e);
+			e.printStackTrace();
+		}
 		return completeRequest(documentObject, template);
 	}
 	
@@ -111,10 +120,10 @@ public class DOMOperations {
 		StringWriter result = new StringWriter();
 		transformer.setOutputProperty(OutputKeys.ENCODING, ENCODING);
 		try {
-			transformer.transform(new DOMSource(xmlSource),
-					new StreamResult(result));
+			transformer.transform(new DOMSource(xmlSource), new StreamResult(result));
 		} catch (TransformerException e) {
 			log.error(e);
+			e.printStackTrace();
 		}
 		return result.toString();
 	}
@@ -126,21 +135,26 @@ public class DOMOperations {
 			xmlBytes = xmlString.getBytes(ENCODING);
 		} catch (UnsupportedEncodingException e) {
 			log.error(e);
+			e.printStackTrace();
 		}
 		InputStream xmlStream = new ByteArrayInputStream(xmlBytes);
 		try {
 			return documentBuilder.parse(xmlStream);
 		} catch (SAXException e) {
 			log.error(e);
+			e.printStackTrace();
 		} catch (IOException e) {
 			log.error(e);
+			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			log.error(e);
+			e.printStackTrace();
 		}
-		throw new NullPointerException("[DOMOperations] Input string is NOT parsed, DOM document is NOT created!");
+		throw new RuntimeException("[DOMOperations] Input string is NOT parsed, DOM document is NOT created!");
 	}
 
 	private Document completeRequest(Document node, InputStream requestPath) {
+		
 		TransformerFactory transformerFactory = DOMFactory.localTransformerFactory.get();
 		Source source = new StreamSource(requestPath);
 		
@@ -150,24 +164,33 @@ public class DOMOperations {
 			DOMResult request = new DOMResult();
 			transformer.transform(new DOMSource(node), request);
 			return (Document) request.getNode();
-		}catch (TransformerConfigurationException e) {
+		} catch (TransformerConfigurationException e) {
 			log.error(e);
+			e.printStackTrace();
 		} catch (TransformerException e) {
 			log.error(e);
+			e.printStackTrace();
 		}
-		return null;
+		throw new RuntimeException("[DOMOperations] Complete request operation failed due to errors!");
 	}
 
-	private Object getResultParameter(Node parentNode, NamespaceContext context, String xPathExpression, QName returnType){
+	private Object getResultParameter(Node parentNode, NamespaceContext context, String xPathExpression, QName returnType) {
 		XPathFactory xPathFactory = DOMFactory.localXPathFactory.get();
 		XPath xPath = xPathFactory.newXPath();
-		if(context != null) {
+		if (context != null) {
 			xPath.setNamespaceContext(context);
 		}
 		try {
 			return xPath.evaluate(xPathExpression, parentNode, returnType);
 		} catch (XPathExpressionException e) {
-			log.error(e);
+			log.error("<code>xPathExpression</code> cannot be evaluated: " +e);
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			log.error("<code>returnType</code> is not one of the types defined in {@link XPathConstants}: " +e);
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			log.error("<code>xPathExpression</code> or <code>returnType</code> is <code>null</code>: " +e);
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -200,7 +223,7 @@ public class DOMOperations {
 			int nodesNumber = nodes.getLength();
 			log.debug("Found " + nodesNumber + " nodes matching XPath " + xPathExpression);
 			
-			for(int i = 0; i< nodesNumber; i++){
+			for (int i = 0; i< nodesNumber; i++) {
 				Node node = nodes.item(i);
 				values.add(node.getFirstChild().getNodeValue());
 			}
@@ -211,17 +234,15 @@ public class DOMOperations {
 		return values;
 	}
 	
-	private Node getResultParameterNode(Node parentNode,
-			String xPathExpression) {
-		return (Node)getResultParameter(parentNode, null, xPathExpression, XPathConstants.NODE);
+	private Node getResultParameterNode(Node parentNode, String xPathExpression) {
+		return (Node) getResultParameter(parentNode, null, xPathExpression, XPathConstants.NODE);
 	}
 	
-	private NodeList getResultParameterNodes(Node parentNode,
-			String xPathExpression) {
-		return (NodeList)getResultParameter(parentNode, null, xPathExpression, XPathConstants.NODESET);
+	private NodeList getResultParameterNodes(Node parentNode, String xPathExpression) {
+		return (NodeList) getResultParameter(parentNode, null, xPathExpression, XPathConstants.NODESET);
 	}
 
-	private Document createDocument(){
+	private Document createDocument() {
 		DocumentBuilder documentBuilder = DOMFactory.localDocumentBuilder.get();
 		return documentBuilder.newDocument();
 	}

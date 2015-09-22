@@ -319,4 +319,11 @@ public class Element extends TestRunner {
 		keyboard.pressKey(keys);
 		return this;
 	}
+	
+	public Element scrollTo() {
+		WebElement element = driver.findElement(lh.getByType(locator));
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+		element.click();
+		return this;
+	}
 }
