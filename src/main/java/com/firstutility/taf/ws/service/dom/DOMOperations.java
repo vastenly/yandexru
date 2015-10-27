@@ -208,7 +208,10 @@ public class DOMOperations {
 			
 			for(int i = 0; i< nodesNumber; i++){
 				Node node = nodes.item(i);
-				values.add(node.getTextContent());
+				if (node.getTextContent() != null)
+					values.add(node.getFirstChild().getNodeValue());
+				else
+					values.add("");
 			}
 		} else {
 			log.debug("No nodes found matching XPath " + xPathExpression);
@@ -225,8 +228,10 @@ public class DOMOperations {
 			
 			for (int i = 0; i< nodesNumber; i++) {
 				Node node = nodes.item(i);
-				if(node.getFirstChild() != null)
-				values.add(node.getFirstChild().getNodeValue());
+				if (node.getFirstChild() != null)
+					values.add(node.getFirstChild().getNodeValue());
+				else
+					values.add("");
 			}
 			
 		} else {
