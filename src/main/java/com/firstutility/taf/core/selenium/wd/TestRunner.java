@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -20,11 +19,12 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import com.firstutility.taf.core.assertions.AssertionsList;
 import com.firstutility.taf.core.selenium.browser.BrowserConstants;
 import com.firstutility.taf.core.selenium.browser.BrowserType;
 import com.firstutility.taf.utils.random.RandomString;
 
-public class TestRunner extends Assert {
+public class TestRunner extends AssertionsList {
 	
 	protected static Set<WebDriver> driversPool = new HashSet<WebDriver>();
 	

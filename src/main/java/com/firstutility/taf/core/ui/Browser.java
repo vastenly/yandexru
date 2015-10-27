@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
@@ -82,16 +83,54 @@ public class Browser extends TestRunner {
 	
 	private Alert alert;
 	
+	/**
+	 * Usage - browser.checkIf(browser.isAlertPresent()).printAlertText(log, LogLevel.INFO).acceptUnexpectedAlert(); 
+	 * @param isValidStatement - is*() statement to check
+	 * @return Browser instance
+	 */
+	public Browser checkIf(boolean isValidStatement) {
+		return (Browser) checkIf(isValidStatement, this);
+	}
+	
+	//isAlertPresent() -- boolean
+	//verifyIsAlertPresent() -- assertTrue(boolean) 
+	//ifIsAlertPresent() -- boolean variable + return this;
+
+	/**
+	 * Usage - browser.ifIsAlertPresent().printAlertText(log, LogLevel.INFO).acceptUnexpectedAlert(); 
+	 * @return Browser instance
+	 */
+	public Browser ifIsAlertPresent() {
+		if (isAlertPresent()) {
+			isValidStatement = true;
+			return this;
+		}
+		isValidStatement = false;
+		return this;
+	}
+	
+	public Browser printAlertText(Level logLevel) {
+		if (!isValidStatement) 
+			return this;
+		if (logLevel == Level.INFO)
+			log.info("[Browser] Browser alert text: "+getAlertText());
+		if (logLevel == Level.DEBUG)
+			log.debug("[Browser] Browser alert text: "+getAlertText());
+		if (logLevel == Level.ERROR)
+			log.error("[Browser] Browser alert text: "+getAlertText());
+		return this;
+	}
+
 	public boolean isAlertPresent() {
 		try {
 			waitForTimeout(10, TimeUnit.SECONDS);
-			alert = driver.switchTo().alert();
+			alert = driver.switchTo().alert(); 
 			return true;
 		} catch (NoAlertPresentException e) {
 			return false;
 		}	
 	}
-	
+
 	public String getAlertText() {
 		String alertText = null;
 		if (isAlertPresent()) {
@@ -106,6 +145,8 @@ public class Browser extends TestRunner {
      * @throws BrowserAlertNotFoundException if the dialog cannot be found.
      */
 	public Browser acceptAlert() {
+		if (!isValidStatement) 
+			return this;
 		if (isAlertPresent()) {
 			log.info("[Browser] Accept browser alert popup.");
 			alert.accept();
@@ -120,6 +161,8 @@ public class Browser extends TestRunner {
      * @return A current Browser instance.
      */
 	public Browser acceptUnexpectedAlert() {
+		if (!isValidStatement) 
+			return this;
 		if (isAlertPresent()) {
 			log.info("[Browser] Accept unexpected browser alert popup.");
 			alert.accept();
@@ -133,6 +176,8 @@ public class Browser extends TestRunner {
      * @throws BrowserAlertNotFoundException if the dialog cannot be found.
      */
 	public Browser closeAlert() {
+		if (!isValidStatement) 
+			return this;
 		if (isAlertPresent()) {
 			log.info("[Browser] Dismiss browser alert popup.");
 			alert.dismiss();
@@ -147,6 +192,8 @@ public class Browser extends TestRunner {
      * @return A current Browser instance.
      */
 	public Browser closeUnexpectedAlert() {
+		if (!isValidStatement) 
+			return this;
 		if (isAlertPresent()) {
 			log.info("[Browser] Dismiss unexpected browser alert popup.");
 			alert.dismiss();
