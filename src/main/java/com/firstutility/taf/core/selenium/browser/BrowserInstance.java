@@ -113,7 +113,7 @@ public class BrowserInstance {
 		options.addArguments(BrowserConstants.CHROME_IGNORE_FLAG_CMD_ARGS);
 				
 		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-		if(driverPath.equals(BrowserConstants.CHROME_WINDOWS_PATH)) {
+		if (driverPath.equals(BrowserConstants.CHROME_WINDOWS_PATH)) {
 			capabilities.setCapability(BrowserConstants.CHROME_DRIVER_BINARY_PROPERTY, driverPath);
 		}  else {
 			options.setBinary(BrowserConstants.CHROME_LINUX_BINARY_PATH);

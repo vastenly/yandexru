@@ -225,6 +225,7 @@ public class DOMOperations {
 			
 			for (int i = 0; i< nodesNumber; i++) {
 				Node node = nodes.item(i);
+				if(node.getFirstChild() != null)
 				values.add(node.getFirstChild().getNodeValue());
 			}
 			
