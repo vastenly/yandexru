@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -29,6 +30,8 @@ public class Element extends TestRunner {
 	
 	protected String locator;
 	protected String name;
+	
+	private int DEFAULT_TIMEOUT = 10;
 	
 	public Element(String locator) {
 		super();
@@ -91,7 +94,10 @@ public class Element extends TestRunner {
 	    } catch (TimeoutException e) {
 	    	log.error(e);
 	    	throw new ElementWaitTimeoutException("[Element] Element located by [" +getLocator()+ "] is NOT present after 10 second(s) expectation.");
+	    } catch (StaleElementReferenceException ex) {
+	    	waitForToBePresent();
 	    }
+		return false;
 	}
 	
 	public boolean waitForToBePresent(int timeout) {
@@ -103,29 +109,29 @@ public class Element extends TestRunner {
 	    } catch (TimeoutException e) {
 	    	log.error(e);
 	    	throw new ElementWaitTimeoutException("[Element] Element located by [" +getLocator()+ "] is NOT present after " +timeout+ " second(s) expectation.");
+	    } catch (StaleElementReferenceException ex) {
+	    	waitForToBePresent(timeout);
 	    }
+		return false;
 	}
 	
 	public boolean waitForToBeNotPresent() {
-		WebDriverWait wait = new WebDriverWait(driver, 10, 1000);
-		return wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(lh.getByType(locator))));
+		return waitForToBeNotPresent(DEFAULT_TIMEOUT);
 	}
 	
 	public boolean waitForToBeNotPresent(int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout, 1000);
-		return wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(lh.getByType(locator))));
+		try {
+			return wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(lh.getByType(locator))));
+		}
+		catch (StaleElementReferenceException ex) {
+			waitForToBeNotPresent(timeout);
+	    }
+		return false;
 	}
 	
 	public boolean waitForToBeVisible() {
-		WebDriverWait wait = new WebDriverWait(driver, 10, 1000);
-		try {
-			return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lh.getByType(locator))) != null;
-	    } catch (NoSuchElementException e) {
-	        return false;
-	    } catch (TimeoutException e) {
-	    	log.error(e);
-	    	throw new ElementWaitTimeoutException("[Element] Element located by [" +getLocator()+ "] is NOT visible after 10 second(s) expectation.");
-	    }
+		return waitForToBeVisible(DEFAULT_TIMEOUT);
 	}
 		
 	public boolean waitForToBeVisible(int timeout) {
@@ -137,17 +143,25 @@ public class Element extends TestRunner {
 	    } catch (TimeoutException e) {
 	    	log.error(e);
 	    	throw new ElementWaitTimeoutException("[Element] Element located by [" +getLocator()+ "] is NOT visible after " +timeout+ " second(s) expectation.");
+	    } catch (StaleElementReferenceException ex) {
+	    	waitForToBeVisible(timeout);
 	    }
+		return false;
 	}
 	
 	public boolean waitForToBeNotVisible() {
-		WebDriverWait wait = new WebDriverWait(driver, 10, 1000);
-		return wait.until(ExpectedConditions.invisibilityOfElementLocated(lh.getByType(locator)));
+		return waitForToBeNotVisible(DEFAULT_TIMEOUT);
 	}
 	
 	public boolean waitForToBeNotVisible(int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout, 1000);
-		return wait.until(ExpectedConditions.invisibilityOfElementLocated(lh.getByType(locator)));
+		try {
+			return wait.until(ExpectedConditions.invisibilityOfElementLocated(lh.getByType(locator)));
+		}
+		catch (StaleElementReferenceException ex) {
+	    	waitForToBeVisible(timeout);
+	    }
+		return false;
 	}
 	
 	public boolean waitForToBeDisplayed() {
