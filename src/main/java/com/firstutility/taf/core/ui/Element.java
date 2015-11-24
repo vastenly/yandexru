@@ -92,16 +92,15 @@ public class Element extends TestRunner {
 	public boolean waitForToBePresent(int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout, 1000);
 		try {
-			return wait.until(ExpectedConditions.presenceOfElementLocated(lh.getByType(locator))) != null;
-	    } catch (NoSuchElementException e) {
-	        return false;
-	    } catch (TimeoutException e) {
-	    	log.error(e);
-	    	throw new ElementWaitTimeoutException("[Element] Element located by [" +getLocator()+ "] is NOT present after " +timeout+ " second(s) expectation.");
-	    } catch (StaleElementReferenceException ex) {
-	    	waitForToBePresent(timeout);
-	    }
-		return false;
+			return wait
+					.ignoring(StaleElementReferenceException.class)
+					.until(ExpectedConditions.presenceOfElementLocated(lh.getByType(locator))) != null;
+		} catch (NoSuchElementException e) {
+			return false;
+		} catch (TimeoutException e) {
+			log.error(e);
+			   throw new ElementWaitTimeoutException("[Element] Element located by [" +getLocator()+ "] is NOT present after " +timeout+ " second(s) expectation.");
+		}
 	}
 	
 	public boolean waitForToBeNotPresent() {
@@ -110,13 +109,9 @@ public class Element extends TestRunner {
 	
 	public boolean waitForToBeNotPresent(int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout, 1000);
-		try {
-			return wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(lh.getByType(locator))));
-		}
-		catch (StaleElementReferenceException ex) {
-			waitForToBeNotPresent(timeout);
-	    }
-		return false;
+		return wait
+				.ignoring(StaleElementReferenceException.class)
+				.until(ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(lh.getByType(locator))));
 	}
 	
 	public boolean waitForToBeVisible() {
@@ -126,16 +121,15 @@ public class Element extends TestRunner {
 	public boolean waitForToBeVisible(int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout, 1000);
 		try {
-			return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lh.getByType(locator))) != null;
+			return wait
+					 .ignoring(StaleElementReferenceException.class)
+					 .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lh.getByType(locator))) != null;
 	    } catch (NoSuchElementException e) {
 	        return false;
 	    } catch (TimeoutException e) {
 	    	log.error(e);
 	    	throw new ElementWaitTimeoutException("[Element] Element located by [" +getLocator()+ "] is NOT visible after " +timeout+ " second(s) expectation.");
-	    } catch (StaleElementReferenceException ex) {
-	    	waitForToBeVisible(timeout);
 	    }
-		return false;
 	}
 	
 	public boolean waitForToBeNotVisible() {
@@ -144,13 +138,9 @@ public class Element extends TestRunner {
 	
 	public boolean waitForToBeNotVisible(int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout, 1000);
-		try {
-			return wait.until(ExpectedConditions.invisibilityOfElementLocated(lh.getByType(locator)));
-		}
-		catch (StaleElementReferenceException ex) {
-	    	waitForToBeNotVisible(timeout);
-	    }
-		return false;
+		return wait
+				.ignoring(StaleElementReferenceException.class)
+				.until(ExpectedConditions.invisibilityOfElementLocated(lh.getByType(locator)));
 	}
 	
 	public boolean waitForToBeDisplayed() {
