@@ -86,18 +86,7 @@ public class Element extends TestRunner {
 	}
 	
 	public boolean waitForToBePresent() {
-		WebDriverWait wait = new WebDriverWait(driver, 10, 1000);
-		try {
-			return wait.until(ExpectedConditions.presenceOfElementLocated(lh.getByType(locator))) != null;
-	    } catch (NoSuchElementException e) {
-	        return false;
-	    } catch (TimeoutException e) {
-	    	log.error(e);
-	    	throw new ElementWaitTimeoutException("[Element] Element located by [" +getLocator()+ "] is NOT present after 10 second(s) expectation.");
-	    } catch (StaleElementReferenceException ex) {
-	    	waitForToBePresent();
-	    }
-		return false;
+		return waitForToBePresent(DEFAULT_TIMEOUT);
 	}
 	
 	public boolean waitForToBePresent(int timeout) {
@@ -159,7 +148,7 @@ public class Element extends TestRunner {
 			return wait.until(ExpectedConditions.invisibilityOfElementLocated(lh.getByType(locator)));
 		}
 		catch (StaleElementReferenceException ex) {
-	    	waitForToBeVisible(timeout);
+	    	waitForToBeNotVisible(timeout);
 	    }
 		return false;
 	}
