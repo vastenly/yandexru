@@ -5,9 +5,9 @@
 	<version>0.25</version>
 
 	<scm>
-		<connection>scm:git:ssh://git@build-tools-ec2.auto.impello.co.uk:7999/uat/test-automation-framework.git</connection>
-		<developerConnection>scm:git:ssh://git@build-tools-ec2.auto.impello.co.uk:7999/uat/test-automation-framework.git</developerConnection>
-		<url>scm:git:ssh://git@build-tools-ec2.auto.impello.co.uk:7999/uat/test-automation-framework.git</url>
+		<connection>scm:git:ssh://git@git.impello.co.uk:7999/uat/test-automation-framework.git</connection>
+		<developerConnection>scm:git:ssh://git@git.impello.co.uk:7999/uat/test-automation-framework.git</developerConnection>
+		<url>scm:git:ssh://git@git.impello.co.uk:7999/uat/test-automation-framework.git</url>
     	<tag>v0.25</tag>
   	</scm>
 
