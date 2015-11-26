@@ -209,7 +209,7 @@ public class DOMOperations {
 			for(int i = 0; i< nodesNumber; i++){
 				Node node = nodes.item(i);
 				if (node.getTextContent() != null)
-					values.add(node.getFirstChild().getNodeValue());
+					values.add(node.getTextContent());
 				else
 					values.add("");
 			}
@@ -233,7 +233,6 @@ public class DOMOperations {
 				else
 					values.add("");
 			}
-			
 		} else {
 			log.debug("No nodes found matching XPath " + xPathExpression);
 		}

@@ -1,5 +1,6 @@
 package com.firstutility.taf.tools.bdd.cucumber;
 
+import org.apache.log4j.Level;
 import org.junit.Assert;
 
 import com.firstutility.taf.core.logging.Logger;
@@ -42,6 +43,7 @@ public class CucumberBaseTest extends Assert {
 	}
 	
 	public void afterScenario(Scenario scenario) {
+		browser.ifIsAlertPresent().printAlertText(Level.ERROR).acceptUnexpectedAlert();
 		CucumberReportUtils.makeScreenshotOnFail(browser, scenario);
 		printLog();
 	}
