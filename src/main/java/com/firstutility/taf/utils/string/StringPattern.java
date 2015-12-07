@@ -6,6 +6,7 @@ import static com.firstutility.taf.utils.string.StringValidator.isDomainName;
 import static com.firstutility.taf.utils.string.StringValidator.isIPv4Address;
 import static com.firstutility.taf.utils.string.StringValidator.isIPv6Address;
 import static com.firstutility.taf.utils.string.StringValidator.isTcpUdpPort;
+import static com.firstutility.taf.utils.StringUtils.isNotBlank;
 
 import com.firstutility.taf.core.enums.InetAddressType;
 import com.firstutility.taf.core.enums.Protocol;
@@ -82,7 +83,22 @@ public class StringPattern {
 		if (isNull(port))
 			return url(protocol, inetAddressType, host);
 		if (!isTcpUdpPort(port))
-			throw new TcpUdpPortOutOfBoundException("[StringPattern] Port is NOT correct!");
+			throw new TcpUdpPortOutOfBoundException("[StringPattern] Port number is NOT correct!");
+		return url(protocol, inetAddressType, host) + ":" + port;
+	}
+	
+	/**
+	 * @param protocol
+	 * @param inetAddressType
+	 * @param host
+	 * @param port
+	 * @return validated URL string with port (simple URL string in case of port is blank value)
+	 */
+	public static String url(Protocol protocol, InetAddressType inetAddressType, String host, String port) {
+		if (isNotBlank(port.trim()))
+			return url(protocol, inetAddressType, host);
+		if (!isTcpUdpPort(Integer.parseInt(port)))
+			throw new TcpUdpPortOutOfBoundException("[StringPattern] Port number is NOT correct!");
 		return url(protocol, inetAddressType, host) + ":" + port;
 	}
 	
@@ -103,6 +119,17 @@ public class StringPattern {
 	 * @return validated URL string with port (simple URL string in case of port is null)
 	 */
 	public static String url(String protocol, String host, Integer port) {
+		Protocol $protocol = Protocol.valueOf(protocol.toUpperCase());
+		return url($protocol, getInetAddressType(host), host, port); 
+	}
+	
+	/**
+	 * @param protocol
+	 * @param host
+	 * @param port
+	 * @return validated URL string with port (simple URL string in case of port is blank value)
+	 */
+	public static String url(String protocol, String host, String port) {
 		Protocol $protocol = Protocol.valueOf(protocol.toUpperCase());
 		return url($protocol, getInetAddressType(host), host, port); 
 	}
