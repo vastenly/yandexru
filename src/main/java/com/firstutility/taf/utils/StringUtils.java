@@ -14,13 +14,32 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 		return str.isEmpty();
 	}
 	
+	/**
+	 * <p>Checks if a String is null or empty.</p>
+	 * @param str
+	 * @return
+	 */
 	public static boolean isNullOrEmpty(String str) {
-		return isEmpty(str) || isNull(str);
+		return isNull(str) || isEmpty(str); 
 	}
 
+	/**
+	 * <p>Checks if a String is not null or empty.</p>
+	 * @param str
+	 * @return
+	 */
 	public static boolean isNotNullOrEmpty(String str) {
 		return !isNullOrEmpty(str);
 	}
+	
+	/**
+	 * <p>Checks if a String is empty, null and whitespace only.</p>
+	 * @param str
+	 * @return true/false flag
+	 */
+	/*public static boolean isBlank(String str) {
+		return org.apache.commons.lang3.StringUtils.isBlank(str);
+	}*/
 	
 	/**
 	 * <p>Checks if a String is not empty, not null and not whitespace only.</p>

@@ -42,13 +42,23 @@ public class DOMOperations {
 	private static final String ENCODING = "UTF-8";
 	private static final Logger log = Logger.getLogger(DOMOperations.class);
 
-	public String generateStringWrappedObject(String rootElement, Map<String, String> parameters, String xslPath) {
-		Document document = buildWrappedObject(rootElement, parameters, xslPath);
+	public String generateStringWrappedObject(String rootElement, Map<String, String> parameters, String xslTemplatePath) {
+		Document document = buildWrappedObject(rootElement, parameters, xslTemplatePath);
 		return convertToString(document);
 	}
 	
-	public String generateStringWrappedObject(Document document, String xslPath) {
-		Document wrappedObject = buildWrappedObject(document, xslPath);
+	public String generateStringWrappedObject(String rootElement, Map<String, String> parameters, InputStream xslTemplateInputStream) {
+		Document document = buildWrappedObject(rootElement, parameters, xslTemplateInputStream);
+		return convertToString(document);
+	}
+	
+	public String generateStringWrappedObject(Document document, String xslTemplatePath) {
+		Document wrappedObject = buildWrappedObject(document, xslTemplatePath);
+		return convertToString(wrappedObject);
+	}
+	
+	public String generateStringWrappedObject(Document document, InputStream xslTemplateInputStream) {
+		Document wrappedObject = buildWrappedObject(document, xslTemplateInputStream);
 		return convertToString(wrappedObject);
 	}
 	
@@ -57,25 +67,34 @@ public class DOMOperations {
 		return convertToString(document);
 	}
 	
-	public Document insertObjectInDocument(Document document, String rootElement,  Map<String, String> parameters, String place){
-		addNodesToDocument(document, rootElement, parameters,findFirstElementByTag(document, place));
+	public Document insertObjectInDocument(Document document, String rootElement,  Map<String, String> parameters, String place) {
+		addNodesToDocument(document, rootElement, parameters, findFirstElementByTag(document, place));
 		return document;
 	}
 	
-	public Document buildWrappedObject(String rootElement, Map<String, String> parameters, String xslPath) {
+	public Document buildWrappedObject(String rootElement, Map<String, String> parameters, String xslTemplatePath) {
 		Document documentObject = buildDocumentObject(rootElement, parameters);
-		return insertInTemplate(documentObject, xslPath);
+		return insertInTemplate(documentObject, xslTemplatePath);
 	}
 	
-	private Document buildWrappedObject(Document document, String xslPath) {
-		return insertInTemplate(document, xslPath);
+	private Document buildWrappedObject(Document document, String xslTemplatePath) {
+		return insertInTemplate(document, xslTemplatePath);
 	}
 	
-	public Document buildDocumentObject(String rootElement, Map<String, String> parameters){
+	public Document buildWrappedObject(String rootElement, Map<String, String> parameters, InputStream xslTemplateInputStream) {
+		Document documentObject = buildDocumentObject(rootElement, parameters);
+		return insertInTemplate(documentObject, xslTemplateInputStream);
+	}
+	
+	private Document buildWrappedObject(Document document, InputStream xslTemplateInputStream) {
+		return insertInTemplate(document, xslTemplateInputStream);
+	}
+	
+	public Document buildDocumentObject(String rootElement, Map<String, String> parameters) {
 		return createDocument(rootElement, parameters);
 	}
 	
-	private Document insertInTemplate (Document documentObject, String reqTemplateFilePath) {
+	private Document insertInTemplate(Document documentObject, String reqTemplateFilePath) {
 		log.info("[DOMOperations] Request content body loaded from [" +reqTemplateFilePath+ "] file.");
 		InputStream template = null;
 		try {
@@ -85,6 +104,10 @@ public class DOMOperations {
 			e.printStackTrace();
 		}
 		return completeRequest(documentObject, template);
+	}
+	
+	private Document insertInTemplate(Document documentObject, InputStream reqTemplateInputStream) {
+		return completeRequest(documentObject, reqTemplateInputStream);
 	}
 	
 	public String convertToString(Document documentObject) {

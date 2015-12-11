@@ -6,7 +6,7 @@ import static com.firstutility.taf.utils.string.StringValidator.isDomainName;
 import static com.firstutility.taf.utils.string.StringValidator.isIPv4Address;
 import static com.firstutility.taf.utils.string.StringValidator.isIPv6Address;
 import static com.firstutility.taf.utils.string.StringValidator.isTcpUdpPort;
-import static com.firstutility.taf.utils.StringUtils.isNotBlank;
+import static com.firstutility.taf.utils.StringUtils.isBlank;
 
 import com.firstutility.taf.core.enums.InetAddressType;
 import com.firstutility.taf.core.enums.Protocol;
@@ -95,7 +95,7 @@ public class StringPattern {
 	 * @return validated URL string with port (simple URL string in case of port is blank value)
 	 */
 	public static String url(Protocol protocol, InetAddressType inetAddressType, String host, String port) {
-		if (isNotBlank(port.trim()))
+		if (isBlank(port))
 			return url(protocol, inetAddressType, host);
 		if (!isTcpUdpPort(Integer.parseInt(port)))
 			throw new TcpUdpPortOutOfBoundException("[StringPattern] Port number is NOT correct!");
