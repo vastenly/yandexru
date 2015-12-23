@@ -2,13 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.firstutility.taf</groupId>
 	<artifactId>taf-core</artifactId>
-	<version>0.32</version>
+	<version>0.33-SNAPSHOT</version>
 
 	<scm>
 		<connection>scm:git:ssh://git@git.impello.co.uk:7999/uat/test-automation-framework.git</connection>
 		<developerConnection>scm:git:ssh://git@git.impello.co.uk:7999/uat/test-automation-framework.git</developerConnection>
 		<url>scm:git:ssh://git@git.impello.co.uk:7999/uat/test-automation-framework.git</url>
-    	<tag>v0.32</tag>
+    	<tag>v0.1</tag>
   	</scm>
 
 	<distributionManagement>
