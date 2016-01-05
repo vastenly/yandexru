@@ -31,16 +31,23 @@ public class LogBuffer {
 				}
 				if (logMessage.startsWith("[debug]")) {
 					if (!logMessage.endsWith("[debug]")){
-						log4j.debug(logMessage.split("\\[info\\]")[1]);
+						log4j.debug(logMessage.split("\\[debug\\]")[1]);
 					} else {
 						log4j.debug("");
+					}
+				}
+				if (logMessage.startsWith("[warn]")) {
+					if (!logMessage.endsWith("[warn]")){
+						log4j.warn(logMessage.split("\\[warn\\]")[1]);
+					} else {
+						log4j.warn("");
 					}
 				}
 				if (logMessage.startsWith("[error]")) {
 					if (!logMessage.endsWith("[error]")){
 						log4j.error(logMessage.split("\\[error\\]")[1]);
 					} else {
-						log4j.debug("");
+						log4j.error("");
 					}
 				}
 			}
