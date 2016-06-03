@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite hostname="V-Trutsko" name="com.yandexru.test.N01Test" failures="1" timestamp="3 Jun 2016 14:04:44 GMT" errors="0">
+    <testcase name="scenario_1" time="38118" classname="com.yandexru.test.N01Test"/>
+  </testsuite>
+</testsuites>

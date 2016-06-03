@@ -1,0 +1,89 @@
+<testng-results>
+  <reporter-output>
+  </reporter-output>
+  <suite name="yandexru" duration-ms="49402" started-at="2016-06-04T02:03:55Z" finished-at="2016-06-04T02:04:44Z">
+    <groups>
+    </groups>
+    <test name="com.yandexru.test.N01Test" duration-ms="49402" started-at="2016-06-04T02:03:55Z" finished-at="2016-06-04T02:04:44Z">
+      <class name="com.yandexru.test.N01Test">
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="9774" started-at="2016-06-04T02:03:55Z" finished-at="2016-06-04T02:04:04Z">
+        </test-method>
+        <test-method status="FAIL" signature="scenario_1()" name="scenario_1" duration-ms="38118" started-at="2016-06-04T02:04:04Z" finished-at="2016-06-04T02:04:42Z">
+          <exception class="org.openqa.selenium.WebDriverException">
+            <message>
+              <![CDATA[chrome not reachable
+  (Session info: chrome=50.0.2661.102)
+  (Driver info: chromedriver=2.14.313457 (3d645c400edf2e2c500566c9aa096063e707c9cf),platform=Windows NT 6.1 SP1 x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 2.01 seconds
+Build info: version: '2.46.0', revision: '61506a4624b13675f24581e453592342b7485d71', time: '2015-06-04 10:22:50'
+System info: host: 'V-Trutsko', ip: '192.168.6.12', os.name: 'Windows 7', os.arch: 'x86', os.version: '6.1', java.version: '1.7.0_02'
+*** Element info: {Using=xpath, value=//div[@class='headline__header']/h1}
+Session ID: 1864b338e9bfffa261aa83c233e8de13
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{platform=XP, acceptSslCerts=true, javascriptEnabled=true, browserName=chrome, chrome={userDataDir=C:\Users\V5C30~1.TRU\AppData\Local\Temp\scoped_dir16132_14527}, rotatable=false, locationContextEnabled=true, mobileEmulationEnabled=false, version=50.0.2661.102, takesHeapSnapshot=true, cssSelectorsEnabled=true, databaseEnabled=false, handlesAlerts=true, browserConnectionEnabled=false, webStorageEnabled=true, nativeEvents=true, applicationCacheEnabled=false, takesScreenshot=true}]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.openqa.selenium.WebDriverException: chrome not reachable
+  (Session info: chrome=50.0.2661.102)
+  (Driver info: chromedriver=2.14.313457 (3d645c400edf2e2c500566c9aa096063e707c9cf),platform=Windows NT 6.1 SP1 x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 2.01 seconds
+Build info: version: '2.46.0', revision: '61506a4624b13675f24581e453592342b7485d71', time: '2015-06-04 10:22:50'
+System info: host: 'V-Trutsko', ip: '192.168.6.12', os.name: 'Windows 7', os.arch: 'x86', os.version: '6.1', java.version: '1.7.0_02'
+*** Element info: {Using=xpath, value=//div[@class='headline__header']/h1}
+Session ID: 1864b338e9bfffa261aa83c233e8de13
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{platform=XP, acceptSslCerts=true, javascriptEnabled=true, browserName=chrome, chrome={userDataDir=C:\Users\V5C30~1.TRU\AppData\Local\Temp\scoped_dir16132_14527}, rotatable=false, locationContextEnabled=true, mobileEmulationEnabled=false, version=50.0.2661.102, takesHeapSnapshot=true, cssSelectorsEnabled=true, databaseEnabled=false, handlesAlerts=true, browserConnectionEnabled=false, webStorageEnabled=true, nativeEvents=true, applicationCacheEnabled=false, takesScreenshot=true}]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:204)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:156)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:605)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:358)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:455)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:358)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:350)
+	at org.openqa.selenium.support.ui.ExpectedConditions.findElement(ExpectedConditions.java:809)
+	at org.openqa.selenium.support.ui.ExpectedConditions.access$000(ExpectedConditions.java:41)
+	at org.openqa.selenium.support.ui.ExpectedConditions$6.apply(ExpectedConditions.java:181)
+	at org.openqa.selenium.support.ui.ExpectedConditions$6.apply(ExpectedConditions.java:178)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:209)
+	at com.godeltech.taf.core.ui.Element.waitForToBePresent(Element.java:97)
+	at com.godeltech.taf.core.ui.Element.waitForToBePresent(Element.java:89)
+	at com.godeltech.taf.core.ui.Element.waitForToBeDisplayed(Element.java:147)
+	at com.yandexru.app.steps.ExtSearchPageSteps.verifyIsHeadSearchResultEqualToCardTitle(ExtSearchPageSteps.java:60)
+	at com.yandexru.test.N01Test.scenario_1(N01Test.java:42)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.testng.internal.MethodHelper.invokeMethod(MethodHelper.java:641)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:667)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:841)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1145)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:137)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:121)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1114)
+	at org.testng.TestRunner.privateRun(TestRunner.java:743)
+	at org.testng.TestRunner.run(TestRunner.java:597)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:315)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:310)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:272)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:221)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:40)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:83)
+	at org.testng.internal.thread.ThreadUtil$CountDownLatchedRunnable.run(ThreadUtil.java:151)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+	at java.lang.Thread.run(Thread.java:722)
+]]>
+            </full-stacktrace>
+          </exception>
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="1474" started-at="2016-06-04T02:04:43Z" finished-at="2016-06-04T02:04:44Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>
